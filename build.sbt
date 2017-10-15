@@ -6,6 +6,14 @@ version := "0.0.1-SNAPSHOT"
 
 scalaVersion := "2.12.3"
 
+organization := "io.leonard"
+
+fork := false
+
+sonatypeGithost := ("github", "leonardehrenfried", "udash-circe")
+
+licenses := Seq(Apache2)
+
 val udashVersion = "0.5.0"
 val circeVersion = "0.8.0"
 
