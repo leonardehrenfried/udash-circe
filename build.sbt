@@ -4,8 +4,6 @@ organization := "io.leonard"
 
 name := "udash-circe"
 
-version := "0.0.1-SNAPSHOT"
-
 scalaVersion := "2.12.3"
 
 fork := false
@@ -23,3 +21,26 @@ libraryDependencies ++= Seq(
   "io.circe" %%% "circe-core"        % circeVersion,
   "io.circe" %%% "circe-parser"      % circeVersion
 )
+
+import ReleaseTransformations._
+
+releasePublishArtifactsAction := PgpKeys.publishSigned.value // Use publishSigned in publishArtifacts step
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  publishArtifacts,
+  setNextVersion,
+  commitNextVersion,
+  releaseStepCommand("sonatypeReleaseAll"),
+  pushChanges
+)
+
+// defaults
+releaseTagComment    := s"Release ${(version in ThisBuild).value}"
+releaseCommitMessage := s"Set version to ${(version in ThisBuild).value}"
