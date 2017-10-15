@@ -44,3 +44,5 @@ releaseProcess := Seq[ReleaseStep](
 // defaults
 releaseTagComment    := s"Release ${(version in ThisBuild).value}"
 releaseCommitMessage := s"Set version to ${(version in ThisBuild).value}"
+
+javaOptions ~= (_.filter(_.startsWith("-D")))
