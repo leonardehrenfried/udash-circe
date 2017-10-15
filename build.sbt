@@ -1,12 +1,12 @@
 enablePlugins(ScalaJSPlugin)
 
+organization := "io.leonard"
+
 name := "udash-circe"
 
 version := "0.0.1-SNAPSHOT"
 
 scalaVersion := "2.12.3"
-
-organization := "io.leonard"
 
 fork := false
 
