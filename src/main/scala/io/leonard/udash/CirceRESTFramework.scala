@@ -27,4 +27,4 @@ trait CirceRESTFramework extends UdashRESTFramework {
     encoder.apply(value)
 }
 
-object CirceRESTFramework extends UdashRESTFramework with CirceRESTFramework
+object CirceRESTFramework extends CirceRESTFramework
