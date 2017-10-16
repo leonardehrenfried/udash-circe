@@ -15,10 +15,10 @@ class CirceServerREST[
   override val framework = CirceRESTFramework
 
   override val remoteRpcAsReal: CirceRESTFramework.AsRealRPC[ServerRPCType] =
-    implicitly[CirceRESTFramework.AsRealRPC[ServerRPCType]]
+    implicitly[framework.AsRealRPC[ServerRPCType]]
 
   override val rpcMetadata =
-    implicitly[CirceRESTFramework.RPCMetadata[ServerRPCType]]
+    implicitly[framework.RPCMetadata[ServerRPCType]]
 
   def rawToHeaderArgument(raw: framework.RawValue): String =
     stripQuotes(framework.rawToString(raw))
