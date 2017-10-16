@@ -12,7 +12,7 @@ sonatypeGithost := ("github.com", "leonardehrenfried", "udash-circe")
 
 licenses := Seq(Apache2)
 
-val udashVersion = "0.5.0"
+val udashVersion = "0.6.0-M6"
 val circeVersion = "0.8.0"
 
 libraryDependencies ++= Seq(

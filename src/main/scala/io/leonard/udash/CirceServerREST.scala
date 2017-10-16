@@ -1,13 +1,12 @@
 package io.leonard.udash
 
-import com.avsystem.commons.rpc.RPCMetadata
 import io.udash.rest.DefaultRESTConnector
-import io.udash.rest.internal.RESTConnector
+import io.udash.rest.internal.{RESTConnector, UsesREST}
 
 import scala.concurrent.ExecutionContext
 
 /** Default REST usage mechanism using [[io.udash.rest.DefaultRESTFramework]]. */
-class CirceServerREST[ServerRPCType: CirceRESTFramework.AsRealRPC: RPCMetadata: CirceRESTFramework.ValidREST](
+class CirceServerREST[ServerRPCType : CirceRESTFramework.AsRealRPC : CirceRESTFramework.ValidREST](
     override protected val connector: RESTConnector)(implicit ec: ExecutionContext)
     extends UsesREST[ServerRPCType] {
 
@@ -15,7 +14,6 @@ class CirceServerREST[ServerRPCType: CirceRESTFramework.AsRealRPC: RPCMetadata: 
 
   override val remoteRpcAsReal: CirceRESTFramework.AsRealRPC[ServerRPCType] =
     implicitly[CirceRESTFramework.AsRealRPC[ServerRPCType]]
-  override val rpcMetadata: RPCMetadata[ServerRPCType] = implicitly[RPCMetadata[ServerRPCType]]
 
   def rawToHeaderArgument(raw: framework.RawValue): String =
     stripQuotes(framework.rawToString(raw))
@@ -27,12 +25,13 @@ class CirceServerREST[ServerRPCType: CirceRESTFramework.AsRealRPC: RPCMetadata: 
   private def stripQuotes(s: String): String =
     s.stripPrefix("\"").stripSuffix("\"")
 
+  override val rpcMetadata = ???
 }
 
 object CirceServerREST {
 
   /** Creates [[io.udash.rest.DefaultServerREST]] with [[io.udash.rest.DefaultRESTConnector]] for provided REST interfaces. */
-  def apply[ServerRPCType: CirceRESTFramework.AsRealRPC: RPCMetadata: CirceRESTFramework.ValidREST](
+  def apply[ServerRPCType: CirceRESTFramework.AsRealRPC: CirceRESTFramework.ValidREST](
       host: String,
       port: Int,
       pathPrefix: String = "")(implicit ec: ExecutionContext): ServerRPCType = {
