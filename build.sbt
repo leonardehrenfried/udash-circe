@@ -8,7 +8,7 @@ scalaVersion := "2.12.3"
 
 fork := false
 
-sonatypeGithost := ("github", "leonardehrenfried", "udash-circe")
+sonatypeGithost := ("github.com", "leonardehrenfried", "udash-circe")
 
 licenses := Seq(Apache2)
 
