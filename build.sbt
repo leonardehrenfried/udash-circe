@@ -1,8 +1,3 @@
-enablePlugins(ScalaJSPlugin)
-
-val udashVersion = "0.6.0-M6"
-val circeVersion = "0.8.0"
-
 import ReleaseTransformations._
 
 releasePublishArtifactsAction := PgpKeys.publishSigned.value // Use publishSigned in publishArtifacts step
@@ -34,34 +29,49 @@ licenses in ThisBuild := Seq(Apache2)
 
 fork := false
 
+val udashVersion = "0.6.0-M6"
+val circeVersion = "0.8.0"
+
 lazy val commonSettings =
   Seq(
     organization := "io.leonard",
-    name := "udash-circe",
     scalaVersion := "2.12.3",
     fork := false,
-    licenses in ThisBuild := Seq(Apache2),
-    // scalaVersion from .travis.yml via sbt-travisci
-    // scalaVersion := "2.12.3",
+    licenses := Seq(Apache2),
     unmanagedSourceDirectories.in(Compile) := Seq(scalaSource.in(Compile).value),
-    unmanagedSourceDirectories.in(Test) := Seq(scalaSource.in(Test).value),
+    unmanagedSourceDirectories.in(Test) := Seq(scalaSource.in(Test).value)
+  )
+
+lazy val `udash-circe-shared` = project
+  .in(file("shared"))
+  .enablePlugins(ScalaJSPlugin)
+  .settings(
+    name := "udash-circe-shared",
     libraryDependencies ++= Seq(
-      "io.udash" %%% "udash-core-shared" % udashVersion,
       "io.udash" %%% "udash-rest-shared" % udashVersion,
-      "io.circe" %%% "circe-core"        % circeVersion,
       "io.circe" %%% "circe-parser"      % circeVersion
     )
   )
-
-lazy val `udash-circe-frontend` = project
-  .in(file("frontend"))
   .settings(commonSettings)
+
+lazy val `udash-circe-backend` = project
+  .in(file("backend"))
+  .settings(
+    name := "udash-circe-backend",
+    libraryDependencies ++= Seq(
+      "io.udash" %%% "udash-rest-backend" % udashVersion,
+      "io.circe" %%% "circe-parser"       % circeVersion
+    )
+  )
+  .settings(commonSettings)
+  .dependsOn(`udash-circe-shared`)
 
 lazy val `udash-circe` =
   project
     .in(file("."))
     .aggregate(
-      `udash-circe-frontend`
+      `udash-circe-shared`,
+      `udash-circe-backend`
     )
     .settings(
       unmanagedSourceDirectories.in(Compile) := Seq.empty,
