@@ -2,6 +2,7 @@ package io.leonard.udash
 
 import io.udash.rest.{DefaultRESTConnector, UdashRESTFramework}
 import io.udash.rest.internal.{RESTConnector, UsesREST}
+import io.udash.rpc.serialization.URLEncoder
 
 import scala.concurrent.ExecutionContext
 
@@ -17,6 +18,15 @@ trait RESTConverters {
 
   private def stripQuotes(s: String): String =
     s.stripPrefix("\"").stripSuffix("\"")
+
+  def headerArgumentToRaw(raw: String, isStringArg: Boolean): framework.RawValue = rawArg(raw, isStringArg)
+  def queryArgumentToRaw(raw: String, isStringArg: Boolean): framework.RawValue  = rawArg(raw, isStringArg)
+  def urlPartToRaw(raw: String, isStringArg: Boolean): framework.RawValue =
+    rawArg(URLEncoder.decode(raw), isStringArg)
+
+  private def rawArg(raw: String, isStringArg: Boolean): framework.RawValue =
+    if (isStringArg) framework.stringToRaw(s""""$raw"""")
+    else framework.stringToRaw(raw)
 }
 
 /** Default REST usage mechanism using [[io.leonard.udash.CirceServerREST]]. */
