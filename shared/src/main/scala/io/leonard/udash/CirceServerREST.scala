@@ -1,24 +1,12 @@
 package io.leonard.udash
 
-import io.udash.rest.DefaultRESTConnector
+import io.udash.rest.{DefaultRESTConnector, UdashRESTFramework}
 import io.udash.rest.internal.{RESTConnector, UsesREST}
 
 import scala.concurrent.ExecutionContext
 
-/** Default REST usage mechanism using [[io.udash.rest.DefaultRESTFramework]]. */
-class CirceServerREST[
-    ServerRPCType: CirceRESTFramework.AsRealRPC: CirceRESTFramework.RPCMetadata: CirceRESTFramework.ValidREST](
-    override protected val connector: RESTConnector)(
-    implicit ec: ExecutionContext)
-    extends UsesREST[ServerRPCType] {
-
-  override val framework = CirceRESTFramework
-
-  override val remoteRpcAsReal: CirceRESTFramework.AsRealRPC[ServerRPCType] =
-    implicitly[framework.AsRealRPC[ServerRPCType]]
-
-  override val rpcMetadata =
-    implicitly[framework.RPCMetadata[ServerRPCType]]
+trait RESTConverters {
+  val framework: UdashRESTFramework
 
   def rawToHeaderArgument(raw: framework.RawValue): String =
     stripQuotes(framework.rawToString(raw))
@@ -29,14 +17,29 @@ class CirceServerREST[
 
   private def stripQuotes(s: String): String =
     s.stripPrefix("\"").stripSuffix("\"")
+}
+
+/** Default REST usage mechanism using [[io.leonard.udash.CirceServerREST]]. */
+class CirceServerREST[
+    ServerRPCType: CirceRESTFramework.AsRealRPC: CirceRESTFramework.RPCMetadata: CirceRESTFramework.ValidREST](
+    override protected val connector: RESTConnector)(implicit ec: ExecutionContext)
+    extends UsesREST[ServerRPCType]
+    with RESTConverters {
+
+  override val framework = CirceRESTFramework
+
+  override val remoteRpcAsReal: CirceRESTFramework.AsRealRPC[ServerRPCType] =
+    implicitly[framework.AsRealRPC[ServerRPCType]]
+
+  override val rpcMetadata =
+    implicitly[framework.RPCMetadata[ServerRPCType]]
 
 }
 
 object CirceServerREST {
 
   /** Creates [[io.udash.rest.DefaultServerREST]] with [[io.udash.rest.DefaultRESTConnector]] for provided REST interfaces. */
-  def apply[
-      ServerRPCType: CirceRESTFramework.AsRealRPC: CirceRESTFramework.RPCMetadata: CirceRESTFramework.ValidREST](
+  def apply[ServerRPCType: CirceRESTFramework.AsRealRPC: CirceRESTFramework.RPCMetadata: CirceRESTFramework.ValidREST](
       host: String,
       port: Int,
       pathPrefix: String = "")(implicit ec: ExecutionContext): ServerRPCType = {

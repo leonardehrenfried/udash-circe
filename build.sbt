@@ -17,6 +17,8 @@ releaseProcess := Seq[ReleaseStep](
   pushChanges
 )
 
+scalafmtVersion in ThisBuild := "1.3.0"
+
 // defaults
 releaseTagComment := s"Release ${(version in ThisBuild).value}"
 releaseCommitMessage := s"Set version to ${(version in ThisBuild).value}"

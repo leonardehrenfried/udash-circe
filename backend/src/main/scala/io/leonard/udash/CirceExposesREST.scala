@@ -1,20 +1,23 @@
 package io.leonard.udash
 
-import io.udash.rest.UdashRESTFramework
 import io.udash.rest.server.ExposesREST
+import io.udash.rpc.serialization.URLEncoder
 
-class CirceExposesREST[ServerPRCType: UdashRESTFramework#AsRawRPC] extends ExposesREST {
-
+class UdashExposesREST[ServerRPCType: CirceRESTFramework.ValidServerREST: CirceRESTFramework.RPCMetadata](
+    localRest: ServerRPCType)(
+    implicit protected val localRpcAsRaw: CirceRESTFramework.AsRawRPC[ServerRPCType]
+) extends ExposesREST[ServerRPCType](localRest) {
   override val framework = CirceRESTFramework
 
-  override protected def localRpcAsRaw = ???
+  protected val rpcMetadata: CirceRESTFramework.RPCMetadata[ServerRPCType] =
+    implicitly[CirceRESTFramework.RPCMetadata[ServerRPCType]]
 
-  override protected val rpcMetadata = CirceRESTFramework.RPCMetadata
+  override def headerArgumentToRaw(raw: String, isStringArg: Boolean): framework.RawValue = rawArg(raw, isStringArg)
+  override def queryArgumentToRaw(raw: String, isStringArg: Boolean): framework.RawValue  = rawArg(raw, isStringArg)
+  override def urlPartToRaw(raw: String, isStringArg: Boolean): framework.RawValue =
+    rawArg(URLEncoder.decode(raw), isStringArg)
 
-  override def headerArgumentToRaw(raw: String, isStringArg: Boolean) = ???
-
-  override def queryArgumentToRaw(raw: String, isStringArg: Boolean) = ???
-
-  override def urlPartToRaw(raw: String, isStringArg: Boolean) = ???
+  private def rawArg(raw: String, isStringArg: Boolean): framework.RawValue =
+    if (isStringArg) framework.stringToRaw(s""""$raw"""")
+    else framework.stringToRaw(raw)
 }
-
