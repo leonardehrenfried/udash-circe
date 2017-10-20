@@ -1,5 +1,7 @@
 # udash-circe
 
+[![Latest version](https://index.scala-lang.org/leonardehrenfried/udash-circe/udash-circe/latest.svg)](https://index.scala-lang.org/leonardehrenfried/udash-circe/udash-circe)
+
 A Udash `RESTFramework` that uses Circe instead of upickle.
 
 ## Installation
