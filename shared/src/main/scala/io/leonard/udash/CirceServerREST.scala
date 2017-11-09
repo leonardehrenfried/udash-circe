@@ -1,6 +1,6 @@
 package io.leonard.udash
 
-import io.udash.rest.DefaultRESTConnector
+import io.udash.rest.{DefaultRESTConnector, RESTConverters}
 import io.udash.rest.internal.{RESTConnector, UsesREST}
 
 import scala.concurrent.ExecutionContext

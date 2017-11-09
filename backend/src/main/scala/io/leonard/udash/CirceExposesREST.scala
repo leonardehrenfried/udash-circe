@@ -1,8 +1,9 @@
 package io.leonard.udash
 
+import io.udash.rest.RESTConverters
 import io.udash.rest.server.ExposesREST
 
-class UdashExposesREST[ServerRPCType: CirceRESTFramework.ValidServerREST: CirceRESTFramework.RPCMetadata](
+class CirceExposesREST[ServerRPCType: CirceRESTFramework.ValidServerREST: CirceRESTFramework.RPCMetadata](
     localRest: ServerRPCType)(
     implicit protected val localRpcAsRaw: CirceRESTFramework.AsRawRPC[ServerRPCType]
 ) extends ExposesREST[ServerRPCType](localRest)
