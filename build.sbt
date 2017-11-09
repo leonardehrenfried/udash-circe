@@ -25,19 +25,19 @@ releaseCommitMessage := s"Set version to ${(version in ThisBuild).value}"
 
 javaOptions ~= (_.filter(_.startsWith("-D")))
 
-sonatypeGithost in ThisBuild := ("github.com", "leonardehrenfried", "udash-circe")
+sonatypeGithost in ThisBuild := (fommil.SonatypeKeys.Github, "leonardehrenfried", "udash-circe")
 
 licenses in ThisBuild := Seq(Apache2)
 
 fork := false
 
-val udashVersion = "0.6.0-M6"
+val udashVersion = "0.6.0-M7"
 val circeVersion = "0.8.0"
 
 lazy val commonSettings =
   Seq(
     organization := "io.leonard",
-    scalaVersion := "2.12.3",
+    scalaVersion := "2.12.4",
     fork := false,
     licenses := Seq(Apache2),
     unmanagedSourceDirectories.in(Compile) := Seq(scalaSource.in(Compile).value),
