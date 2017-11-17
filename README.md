@@ -19,10 +19,3 @@ val restServer = io.leonard.udash.CirceServerREST[Api](
   "/"
 )
 ```
-
-## Limitations
-
-At the moment this implementation is pretty clumsy and has to copy
-a few classes from the Udash code in order for it to work.
-
-I'm working on solving this: [https://github.com/UdashFramework/udash-core/issues/124](https://github.com/UdashFramework/udash-core/issues/124)
