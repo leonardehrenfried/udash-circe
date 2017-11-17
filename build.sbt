@@ -17,8 +17,6 @@ releaseProcess := Seq[ReleaseStep](
   pushChanges
 )
 
-scalafmtVersion in ThisBuild := "1.3.0"
-
 // defaults
 releaseTagComment := s"Release ${(version in ThisBuild).value}"
 releaseCommitMessage := s"Set version to ${(version in ThisBuild).value}"
@@ -31,7 +29,7 @@ licenses in ThisBuild := Seq(Apache2)
 
 fork := false
 
-val udashVersion = "0.6.0-M7"
+val udashVersion = "0.6.0-M8"
 val circeVersion = "0.8.0"
 
 lazy val commonSettings =
