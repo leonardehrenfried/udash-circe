@@ -21,13 +21,27 @@ releaseProcess := Seq[ReleaseStep](
 releaseTagComment := s"Release ${(version in ThisBuild).value}"
 releaseCommitMessage := s"Set version to ${(version in ThisBuild).value}"
 
-javaOptions := Seq()
-
-sonatypeGithost in ThisBuild := (fommil.SonatypeKeys.Github, "leonardehrenfried", "udash-circe")
-
-licenses in ThisBuild := Seq(Apache2)
+javaOptions in ThisBuild := Seq()
 
 fork := false
+
+// POM settings for Sonatype
+homepage := Some(url("https://github.com/leonardehrenfried/udash-circe"))
+scmInfo := Some(
+  ScmInfo(url("https://github.com/leonardehrenfried/udash-circe"), "git@github.com:leonardehrenfried/udash-circe.git"))
+
+developers := List(
+  Developer("leonardehrenfried", "Leonard Ehrenfried", "mail@leonard.io", url("https://github.com/leonardehrenfried")))
+licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0"))
+publishMavenStyle := true
+
+// Add sonatype repository settings
+publishTo := Some(
+  if (isSnapshot.value)
+    Opts.resolver.sonatypeSnapshots
+  else
+    Opts.resolver.sonatypeStaging
+)
 
 val udashVersion = "0.6.0-M11"
 val circeVersion = "0.8.0"
@@ -37,7 +51,6 @@ lazy val commonSettings =
     organization := "io.leonard",
     scalaVersion := "2.12.4",
     fork := false,
-    licenses := Seq(Apache2),
     unmanagedSourceDirectories.in(Compile) := Seq(scalaSource.in(Compile).value),
     unmanagedSourceDirectories.in(Test) := Seq(scalaSource.in(Test).value)
   )
