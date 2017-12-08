@@ -25,16 +25,6 @@ javaOptions in ThisBuild := Seq()
 
 fork := false
 
-// POM settings for Sonatype
-homepage := Some(url("https://github.com/leonardehrenfried/udash-circe"))
-scmInfo := Some(
-  ScmInfo(url("https://github.com/leonardehrenfried/udash-circe"), "git@github.com:leonardehrenfried/udash-circe.git"))
-
-developers := List(
-  Developer("leonardehrenfried", "Leonard Ehrenfried", "mail@leonard.io", url("https://github.com/leonardehrenfried")))
-licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0"))
-publishMavenStyle := true
-
 // Add sonatype repository settings
 publishTo in ThisBuild := Some(
   if (isSnapshot.value)
@@ -52,7 +42,19 @@ lazy val commonSettings =
     scalaVersion := "2.12.4",
     fork := false,
     unmanagedSourceDirectories.in(Compile) := Seq(scalaSource.in(Compile).value),
-    unmanagedSourceDirectories.in(Test) := Seq(scalaSource.in(Test).value)
+    unmanagedSourceDirectories.in(Test) := Seq(scalaSource.in(Test).value),
+    // POM settings for Sonatype
+    homepage := Some(url("https://github.com/leonardehrenfried/udash-circe")),
+    scmInfo := Some(
+      ScmInfo(url("https://github.com/leonardehrenfried/udash-circe"),
+              "git@github.com:leonardehrenfried/udash-circe.git")),
+    developers := List(
+      Developer("leonardehrenfried",
+                "Leonard Ehrenfried",
+                "mail@leonard.io",
+                url("https://github.com/leonardehrenfried"))),
+    licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0")),
+    publishMavenStyle := true
   )
 
 lazy val `udash-circe-shared` = project
