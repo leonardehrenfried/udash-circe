@@ -21,7 +21,7 @@ releaseProcess := Seq[ReleaseStep](
 releaseTagComment := s"Release ${(version in ThisBuild).value}"
 releaseCommitMessage := s"Set version to ${(version in ThisBuild).value}"
 
-javaOptions ~= (_.filter(_.startsWith("-D")))
+javaOptions := Seq()
 
 sonatypeGithost in ThisBuild := (fommil.SonatypeKeys.Github, "leonardehrenfried", "udash-circe")
 
