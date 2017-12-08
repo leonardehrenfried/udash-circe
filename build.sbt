@@ -1,6 +1,5 @@
 import ReleaseTransformations._
 
-releasePublishArtifactsAction := PgpKeys.publishSigned.value // Use publishSigned in publishArtifacts step
 
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
@@ -55,7 +54,8 @@ lazy val commonSettings =
                 "mail@leonard.io",
                 url("https://github.com/leonardehrenfried"))),
     licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0")),
-    publishMavenStyle := true
+    publishMavenStyle := true,
+    releasePublishArtifactsAction := PgpKeys.publishSigned.value // Use publishSigned in publishArtifacts step
   )
 
 lazy val `udash-circe-shared` = project

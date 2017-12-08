@@ -7,7 +7,7 @@ A Udash `RESTFramework` that uses Circe instead of upickle.
 ## Installation
 
 ```
-libraryDependencies += "io.leonard" %%% "udash-circe" % "0.0.1"
+libraryDependencies += "io.leonard" %%% "udash-circe" % "0.0.9"
 ```
 
 ## Usage
@@ -23,4 +23,4 @@ val restServer = io.leonard.udash.CirceServerREST[Api](
 ## Udash versions
 
 - For Udash 0.5.0 use version 0.0.4
-- For Udash 0.6.0 use version 0.0.7
+- For Udash 0.6.0 use version 0.0.9
