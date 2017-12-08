@@ -1,6 +1,5 @@
 import ReleaseTransformations._
 
-
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   inquireVersions,
@@ -23,7 +22,6 @@ releaseCommitMessage := s"Set version to ${(version in ThisBuild).value}"
 javaOptions in ThisBuild := Seq()
 
 fork := false
-
 
 // Add sonatype repository settings
 publishTo in ThisBuild := Some(
@@ -58,11 +56,11 @@ lazy val commonSettings =
     releasePublishArtifactsAction := PgpKeys.publishSigned.value // Use publishSigned in publishArtifacts step
   )
 
-lazy val `udash-circe-shared` = project
+lazy val `udash-circe` = project
   .in(file("shared"))
   .enablePlugins(ScalaJSPlugin)
   .settings(
-    name := "udash-circe-shared",
+    name := "udash-circe",
     libraryDependencies ++= Seq(
       "io.udash" %%% "udash-rest-shared" % udashVersion,
       "io.circe" %%% "circe-parser"      % circeVersion
@@ -80,13 +78,13 @@ lazy val `udash-circe-backend` = project
     )
   )
   .settings(commonSettings)
-  .dependsOn(`udash-circe-shared`)
+  .dependsOn(`udash-circe`)
 
-lazy val `udash-circe` =
+lazy val `udash-circe-all` =
   project
     .in(file("."))
     .aggregate(
-      `udash-circe-shared`,
+      `udash-circe`,
       `udash-circe-backend`
     )
     .settings(
