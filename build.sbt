@@ -29,7 +29,7 @@ licenses in ThisBuild := Seq(Apache2)
 
 fork := false
 
-val udashVersion = "0.6.0-M8"
+val udashVersion = "0.6.0-M11"
 val circeVersion = "0.8.0"
 
 lazy val commonSettings =
