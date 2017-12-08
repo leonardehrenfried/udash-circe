@@ -19,3 +19,8 @@ val restServer = io.leonard.udash.CirceServerREST[Api](
   "/"
 )
 ```
+
+## Udash versions
+
+- For Udash 0.5.0 use version 0.0.4
+- For Udash 0.6.0 use version 0.0.7

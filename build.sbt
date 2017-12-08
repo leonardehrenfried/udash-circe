@@ -25,6 +25,7 @@ javaOptions in ThisBuild := Seq()
 
 fork := false
 
+
 // Add sonatype repository settings
 publishTo in ThisBuild := Some(
   if (isSnapshot.value)
